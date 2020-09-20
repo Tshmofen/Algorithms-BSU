@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Linq;
 
-namespace QuickSortHybrid
+namespace HybridSorts
 {
     public static class ArrayGenerator
     {
@@ -17,6 +18,10 @@ namespace QuickSortHybrid
                 }
             }
             return generatedArrays;
+        }
+        public static int[][] CopyArrayOfArrays(int[][] source)
+        {
+            return source.Select(s => s.ToArray()).ToArray();
         }
     }
 }
