@@ -20,8 +20,8 @@ namespace HybridSorts
 
         public static void Main(string[] args)
         {
-            SortTester tester = new SortTester(50, 10000, 10000);
-            tester.CountMagicNumberForQuickSort(Sorting.QuickSort);
+            SortTester tester = new SortTester(50, 100000, int.MaxValue);
+            tester.CountMagicNumberForQuickSort(Sorting.MergeSort);
             Console.ReadKey();
         }
 
