@@ -8,6 +8,11 @@
 
         public Node RightNode { get; set; }
 
+        public Node()
+        {
+            Number = 0;
+        }
+
         public Node(int number)
         {
             Number = number;
@@ -49,6 +54,24 @@
                 case 1: return RightNode.FindNode(number);
                 default: return null;
             }
+        }
+
+        // right rotation about p
+        public Node RotateRight(Node p) 
+        {
+            Node q = p.LeftNode;
+            p.LeftNode = q.RightNode;
+            q.RightNode = p;
+            return q;
+        }
+
+        // left rotation about q
+        public Node RotateLeft(Node q) 
+        {
+            Node p = q.RightNode;
+            q.RightNode = p.LeftNode;
+            p.LeftNode = q;
+            return p;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace BinarySearchTree
@@ -156,5 +157,62 @@ namespace BinarySearchTree
         {
             return RootNode.FindNode(number);
         }
+
+        public int FindMinimalNode(int k = 1)
+        {
+            List<int> numbers = new List<int>();
+            InorderTraversalArray(RootNode, numbers);
+            return numbers[k - 1];
+        }
+
+        public static void PreorderTraversal(Node startNode)
+        {
+            if (startNode == null) 
+            { 
+                return;
+            }
+            Console.Write($"{startNode.Number} ");
+            PreorderTraversal(startNode.LeftNode);
+            PreorderTraversal(startNode.RightNode);
+        }
+
+        public static void InorderTraversal(Node startNode)
+        {
+            if (startNode == null)
+            {
+                return;
+            }
+            InorderTraversal(startNode.LeftNode);
+            Console.Write($"{startNode.Number} ");
+            InorderTraversal(startNode.RightNode);
+        }
+
+        public static void InorderTraversalArray(Node startNode, List<int> minimals)
+        {
+            if (startNode == null)
+            {
+                return;
+            }
+            InorderTraversalArray(startNode.LeftNode, minimals);
+            minimals.Add(startNode.Number);
+            InorderTraversalArray(startNode.RightNode, minimals);
+        }
+
+        public static void PostorderTraversal(Node startNode)
+        {
+            if (startNode == null) 
+            { 
+                return;
+            }
+            PostorderTraversal(startNode.LeftNode);
+            PostorderTraversal(startNode.RightNode);
+            Console.Write($"{startNode.Number} ");
+        }
+
+        public BinaryTree CreateBalancedTree()
+        {
+            
+        }
+
     }
 }
