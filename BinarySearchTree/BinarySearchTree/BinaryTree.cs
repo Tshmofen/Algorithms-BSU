@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BinarySearchTree
 {
@@ -127,6 +124,11 @@ namespace BinarySearchTree
             return true;
         }
 
+        public Node FindNode(int number)
+        {
+            return RootNode.FindNode(number);
+        }
+
         private Node FindNodeParent(int number)
         {
             Node current = RootNode;
@@ -153,66 +155,30 @@ namespace BinarySearchTree
             return parent;
         }
 
-        public Node FindNode(int number)
-        {
-            return RootNode.FindNode(number);
-        }
-
         public int FindMinimalNode(int k = 1)
         {
-            List<int> numbers = new List<int>();
-            InorderTraversalArray(RootNode, numbers);
+            List<int> numbers = Node.InorderTraversalArray(RootNode, null, k + 1);
             return numbers[k - 1];
         }
 
-        public static void PreorderTraversal(Node startNode)
+        public void PreorderTraversal()
         {
-            if (startNode == null) 
-            { 
-                return;
-            }
-            Console.Write($"{startNode.Number} ");
-            PreorderTraversal(startNode.LeftNode);
-            PreorderTraversal(startNode.RightNode);
+            Node.PreorderTraversal(this.RootNode);
         }
 
-        public static void InorderTraversal(Node startNode)
+        public void InorderTraversal()
         {
-            if (startNode == null)
-            {
-                return;
-            }
-            InorderTraversal(startNode.LeftNode);
-            Console.Write($"{startNode.Number} ");
-            InorderTraversal(startNode.RightNode);
+            Node.InorderTraversal(this.RootNode);
         }
 
-        public static void InorderTraversalArray(Node startNode, List<int> minimals)
+        public void PostorderTraversal()
         {
-            if (startNode == null)
-            {
-                return;
-            }
-            InorderTraversalArray(startNode.LeftNode, minimals);
-            minimals.Add(startNode.Number);
-            InorderTraversalArray(startNode.RightNode, minimals);
+            Node.PostorderTraversal(this.RootNode);
         }
 
-        public static void PostorderTraversal(Node startNode)
+        public void BalanceTree()
         {
-            if (startNode == null) 
-            { 
-                return;
-            }
-            PostorderTraversal(startNode.LeftNode);
-            PostorderTraversal(startNode.RightNode);
-            Console.Write($"{startNode.Number} ");
+            RootNode = Node.BalanceNode(RootNode);
         }
-
-        public BinaryTree CreateBalancedTree()
-        {
-            
-        }
-
     }
 }

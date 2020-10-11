@@ -2,17 +2,19 @@
 
 namespace BinarySearchTree
 {
-    class TreeTester
+    public class TreeTester
     {
         static void Main(string[] args)
         {
             BinaryTree tree = new BinaryTree();
-            tree.AddNode(1);
-            tree.AddNode(2);
-            tree.AddNode(6);
-            tree.AddNode(7);
-            tree.AddNode(4);
-            tree.AddNode(10);
+            int[] nodes = { 1, 2, 9, 6, 7, 4, 10 };
+            foreach (int num in nodes) tree.AddNode(num);
+
+            TreePrinter.PrintChildNodes(tree.RootNode);
+            Console.ReadKey();
+            Console.Clear();
+
+            tree.BalanceTree();
 
             TreePrinter.PrintChildNodes(tree.RootNode);
             Console.ReadKey();
