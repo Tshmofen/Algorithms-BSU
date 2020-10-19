@@ -10,13 +10,13 @@ namespace Searching
 
         static void Main(string[] args)
         {
-            int arraySize = 100000;
-            int maxValue = 100000;
+            int arraySize = 500000;
+            int maxValue = 50000;
             int key = 3333;
             Console.WriteLine($"Array size = {arraySize}, max value = {maxValue}, key = {key}\n" +
                 $"Compare operations to find key:\n" + 
                 $" 1. {CountCompareOperations(arraySize, maxValue, key, Searching.BinarySearch)} " +
-                $"operations for Binary Search\n" +
+                $"operations for Binary Search\n" + 
                 $" 2. {CountCompareOperations(arraySize, maxValue, key, Searching.InterpolationSearch)} " +
                 $"operations for Interpolation Search\n");
             Console.ReadKey();

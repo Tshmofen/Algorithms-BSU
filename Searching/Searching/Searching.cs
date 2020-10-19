@@ -1,4 +1,6 @@
-﻿namespace Searching
+﻿using System;
+
+namespace Searching
 {
     public class Searching
     {
@@ -13,7 +15,6 @@
             Comparings = 0; // task 2.1
             while (left <= right)
             {
-                Comparings++;
                 int mid = left + (right - left) / 2;
                 if (array[mid] < key)
                 {
@@ -43,10 +44,10 @@
             int right = array.Length - 1;
 
             Comparings = 0; // task 2.1
-            while ((array[right] != array[left]) && (key >= array[left]) && (key <= array[right]))
+            while (left < right && (key >= array[left]) && (key <= array[right]))
             {
-                Comparings+=3; // task 2.1
-                int mid = left + ((key - array[left]) * (right - left) / (array[right] - array[left]));
+                int mid = (int)Math.Round(left + ((double)(key - array[left]) * (right - left) / (array[right] - array[left])));
+
                 if (array[mid] < key)
                 {
                     Comparings++; // task 2.1
@@ -54,12 +55,12 @@
                 }
                 else if (array[mid] > key)
                 {
-                    Comparings+=2; // task 2.1
+                    Comparings += 2; // task 2.1
                     right = mid - 1;
                 }
-                else if (array[mid] == key)
+                else 
                 {
-                    Comparings+=3; // task 2.1
+                    Comparings += 3; // task 2.1
                     index = mid;
                     break;
                 }

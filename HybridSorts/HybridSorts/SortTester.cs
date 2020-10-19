@@ -8,7 +8,7 @@ namespace HybridSorts
         private int arraySize;
         private int arrayMaxElement;
 
-        // this sorting should be in Sorting class and use magicNumber
+        // this sorting should be in Sorting class and use static int magicNumber
         public delegate void GeneralSorting(int[] array, int lowInd, int topInd);
 
         public SortTester(int arraysNum, int arraySize, int arrayMaxElement)
