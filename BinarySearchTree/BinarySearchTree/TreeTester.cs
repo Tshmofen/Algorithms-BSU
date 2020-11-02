@@ -7,10 +7,18 @@ namespace BinarySearchTree
         static void Main(string[] args)
         {
             BinaryTree tree = new BinaryTree();
-            int[] nodes = { 1, 11, 2, 9, 6, 7, 4, 10 };
+            int[] nodes = { 1, 12, 13, 2, 9, 6, 8, 4, 15 };
             foreach (int num in nodes) tree.AddNode(num);
 
             // Tree building
+            TreePrinter.PrintChildNodes(tree.RootNode);
+            Console.ReadKey();
+            Console.Write('\b');
+
+            tree.RootNode.RightNode = Node.RotateRight(tree.RootNode.RightNode);
+            Node nd = tree.RootNode.RightNode;
+            Console.WriteLine($"{nd.Number}: {nd.LeftChilds} - {nd.RightChilds}");
+            Console.WriteLine($"{nd.RightNode.Number}: {nd.RightNode.LeftChilds} - {nd.RightNode.RightChilds}");
             TreePrinter.PrintChildNodes(tree.RootNode);
             Console.ReadKey();
             Console.Write('\b');

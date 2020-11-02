@@ -13,20 +13,22 @@ namespace BinarySearchTree
 
         public Node RightNode { get; set; }
 
-        public Node()
-        {
-            Number = 0;
-        }
+        public int LeftChilds { get; set; }
 
-        public Node(int number)
+        public int RightChilds { get; set; }
+
+        public Node(int number = 0)
         {
             Number = number;
+            LeftChilds = 0;
+            RightChilds = 0;
         }
 
         public void AddNode(int number)
         {
             if (number < this.Number)
             {
+                LeftChilds++;
                 if (LeftNode == null)
                 {
                     LeftNode = new Node(number);
@@ -39,6 +41,7 @@ namespace BinarySearchTree
             // skip when number == Number
             else if (number > this.Number)
             {
+                RightChilds++;
                 if (RightNode == null)
                 {
                     RightNode = new Node(number);
@@ -80,8 +83,8 @@ namespace BinarySearchTree
 
         public static Node BalanceNode(Node node)
         {
-            List<int> orderedNums = InorderTraversalArray(node); // set values to orderedNums
-            int midVal = orderedNums[orderedNums.Count / 2]; // take middle value
+            int nodeCount = node.RightChilds + node.LeftChilds + 1;
+            int midVal = node.FindMinimalNode((nodeCount + 1)/ 2); // take middle value
             List<char> moves = node.FindNodeMoves(midVal); // find moves to find how come to new root
 
             for (int i = moves.Count - 1; i > 0; i--)
@@ -121,6 +124,11 @@ namespace BinarySearchTree
             Node q = p.LeftNode;
             p.LeftNode = q.RightNode;
             q.RightNode = p;
+
+            q.LeftNode?.RecountChilds();
+            q.RightNode?.RecountChilds();
+            q.RecountChilds();
+
             return q;
         }
 
@@ -130,6 +138,11 @@ namespace BinarySearchTree
             Node p = q.RightNode;
             q.RightNode = p.LeftNode;
             p.LeftNode = q;
+
+            q.LeftNode?.RecountChilds();
+            q.RightNode?.RecountChilds();
+            q.RecountChilds();
+            
             return p;
         }
 
@@ -186,6 +199,30 @@ namespace BinarySearchTree
             PostorderTraversal(startNode.LeftNode);
             PostorderTraversal(startNode.RightNode);
             Console.Write($"{startNode.Number} ");
+        }
+
+        public int FindMinimalNode(int k = 1)
+        {
+            Node node = this;
+            while (k != 0 && node.LeftChilds + 1 != k)
+            {
+                if (node.LeftChilds + 1 < k)
+                {
+                    k -= node.LeftChilds + 1;
+                    node = node.RightNode;
+                }
+                else
+                {
+                    node = node.LeftNode;
+                }
+            }
+            return node.Number;
+        }
+
+        private void RecountChilds()
+        {
+            LeftChilds = (LeftNode == null) ? 0 : LeftNode.LeftChilds + LeftNode.RightChilds + 1 ;
+            RightChilds = (RightNode == null) ? 0 : RightNode.LeftChilds + RightNode.RightChilds + 1;
         }
     }
 }
