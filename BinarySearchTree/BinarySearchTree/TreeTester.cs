@@ -15,14 +15,6 @@ namespace BinarySearchTree
             Console.ReadKey();
             Console.Write('\b');
 
-            tree.RootNode.RightNode = Node.RotateRight(tree.RootNode.RightNode);
-            Node nd = tree.RootNode.RightNode;
-            Console.WriteLine($"{nd.Number}: {nd.LeftChilds} - {nd.RightChilds}");
-            Console.WriteLine($"{nd.RightNode.Number}: {nd.RightNode.LeftChilds} - {nd.RightNode.RightChilds}");
-            TreePrinter.PrintChildNodes(tree.RootNode);
-            Console.ReadKey();
-            Console.Write('\b');
-
             // Traversals
             Console.Write("Traversals:\n1)Preorder { ");
             tree.PreorderTraversal();

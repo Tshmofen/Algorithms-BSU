@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Net.NetworkInformation;
 
 namespace BinarySearchTree
 {
@@ -169,27 +167,6 @@ namespace BinarySearchTree
             InorderTraversal(startNode.RightNode);
         }
 
-        public static List<int> InorderTraversalArray(Node startNode, List<int> minimals = null, int maxSize = -1)
-        {
-            minimals ??= new List<int>();
-
-            if (startNode == null)
-            {
-                return minimals;
-            }
-
-            if (maxSize > -1 && minimals.Count >= maxSize)
-            {
-                return minimals;
-            }
-
-            InorderTraversalArray(startNode.LeftNode, minimals);
-            minimals.Add(startNode.Number);
-            InorderTraversalArray(startNode.RightNode, minimals);
-
-            return minimals;
-        }
-
         public static void PostorderTraversal(Node startNode)
         {
             if (startNode == null)
@@ -206,7 +183,7 @@ namespace BinarySearchTree
             Node node = this;
             while (k != 0 && node.LeftChilds + 1 != k)
             {
-                if (node.LeftChilds + 1 < k)
+                if (k > node.LeftChilds + 1)
                 {
                     k -= node.LeftChilds + 1;
                     node = node.RightNode;

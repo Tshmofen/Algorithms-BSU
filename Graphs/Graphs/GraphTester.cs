@@ -42,6 +42,21 @@ namespace Graphs
 
             // -----------------------------------
 
+            Console.WriteLine($"Graph 3\n");
+            graph = new Graph(6);
+            edges = new[]
+            {
+                (0, 1),
+                (0, 3),
+                (2, 1),
+                (2, 3),
+                (4, 3)
+            };
+            GraphOutput(graph, edges);
+            Console.WriteLine("\n------------------\n");
+
+            // -----------------------------------
+
             Console.ReadKey();
         }
 

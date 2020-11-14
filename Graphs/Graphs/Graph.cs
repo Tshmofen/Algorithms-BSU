@@ -7,6 +7,8 @@ namespace Graphs
     {
         private List<List<int>> contiguity;
 
+        private bool _bipartiteStop;
+
         public Graph(int size = 0)
         {
             this.contiguity = new List<List<int>>();
@@ -37,23 +39,15 @@ namespace Graphs
         {
             get
             {
-                if (Count == 0 || FindСomponents().Count != 1) { return false; }
-
-                List<bool> verticesUsed = new List<bool>();
-                for (int i = 0; i < Count; i++) { verticesUsed.Add(false); }
-                List<int> firstColor = new List<int>(); 
-                List<int> secondColor = new List<int>();
-
-                DepthColorSearch(0, verticesUsed, firstColor, secondColor);
-                foreach(int vertex in firstColor)
-                {
-                    if (secondColor.Contains(vertex))
-                    {
-                        return false;
-                    }
+                if (Count == 0 || Count == 1) {
+                    return false; 
                 }
 
-                return true;
+                _bipartiteStop = false;
+                List<char> verticesColor = new List<char>();
+                for (int i = 0; i < Count; i++) { verticesColor.Add('n'); }
+
+                return DepthColorSearch(0, verticesColor, 'f');
             }
         }
 
@@ -131,20 +125,29 @@ namespace Graphs
 
         public void FindBipartiteParts(out List<int> firstPart, out List<int> secondPart)
         {
-            List<bool> verticesUsed = new List<bool>();
-            for (int i = 0; i < Count; i++) { verticesUsed.Add(false); }
             firstPart = new List<int>();
             secondPart = new List<int>();
 
-            if (Count == 0 || FindСomponents().Count != 1) { return; }
-            DepthColorSearch(0, verticesUsed, firstPart, secondPart);
-            foreach (int vertex in firstPart)
+            _bipartiteStop = false;
+            List<char> verticesColor = new List<char>();
+            for (int i = 0; i < Count; i++) { 
+                verticesColor.Add('n'); 
+            }
+
+            if (Count == 0 || Count == 1 || !DepthColorSearch(0, verticesColor, 'f'))
             {
-                if (secondPart.Contains(vertex))
+                return;
+            }
+
+            for (int i = 0; i < verticesColor.Count; i++)
+            {
+                if (verticesColor[i] == 'f')
                 {
-                    firstPart.Clear();
-                    secondPart.Clear();
-                    return;
+                    firstPart.Add(i);
+                }
+                else
+                {
+                    secondPart.Add(i);
                 }
             }
         }
@@ -183,27 +186,25 @@ namespace Graphs
             }
         }
 
-        private void DepthColorSearch(int vertex, List<bool> verticesUsed
-            , List<int> verticesFirstColor, List<int> verticesSecondColor)
+        // 'n' - none, 'f' - first, 's' - second
+        private bool DepthColorSearch(int vertex, List<char> verticesColor, char vertexColor)
         {
-            verticesUsed[vertex] = true;
-            if (verticesFirstColor.Count < verticesSecondColor.Count) 
-            { 
-                verticesFirstColor.Add(vertex); 
-            }
-            else
+            if (_bipartiteStop) return false;
+            verticesColor[vertex] = vertexColor;
+            foreach (int neighbor in contiguity[vertex])
             {
-                verticesSecondColor.Add(vertex);
-            }
-            
-            for (int i = 0; i < contiguity[vertex].Count; i++)
-            {
-                int nextVertex = contiguity[vertex][i];
-                if (!verticesUsed[nextVertex])
+                if (verticesColor[neighbor] == 'n')
                 {
-                    DepthColorSearch(nextVertex, verticesUsed, verticesFirstColor, verticesSecondColor);
+                    char nextColor = (vertexColor == 'f') ? 's' : 'f';
+                    DepthColorSearch(neighbor, verticesColor, nextColor);
+                }
+                else if (verticesColor[neighbor] == vertexColor)
+                {
+                    _bipartiteStop = true;
+                    return false;
                 }
             }
+            return !_bipartiteStop;
         }
     }
 }

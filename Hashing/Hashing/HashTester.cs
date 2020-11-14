@@ -9,7 +9,7 @@ namespace Hashing
         static void Main(string[] args)
         {
             int arraysNum = 30;
-            int arraySize = 750;
+            int arraySize = 5000;
             int maxValue = 500;
             int tableSize = 2000;
             int[][] arrays = ArrayGenerator.GenerateArrays(arraysNum, arraySize, maxValue);
@@ -23,18 +23,21 @@ namespace Hashing
                 1
             };
 
-            Console.WriteLine($"Arrays number = {arraysNum}, each array size = {arraySize},\n"
-                + $"maximal value = {maxValue}, table size = {tableSize}.\n");    
+            Console.WriteLine(
+                $"Arrays number = {arraysNum}, each array size = {arraySize},\n"
+                + $"maximal value = {maxValue}, table size = {tableSize}.\n"
+                );    
             for (int i = 0; i < constans.Length; i++)
             {
                 if (i == 0)
                 {
-                    //Usual optimal A is  (Math.Sqrt(5) - 1) / 2
                     Console.WriteLine("--------------\n\nStandart constant is ((Math.Sqrt(5) - 1) / 2)");
                 }
-                Console.WriteLine($"Test for A = {constans[i]}\n" +
+                Console.WriteLine(
+                    $"Test for A = {constans[i]}\n" +
                     $"   In average chains have maximum length of " +
-                    $"{GetAverageMaxChainLength(constans[i], tableSize, arrays)}\n");
+                    $"{GetAverageMaxChainLength(constans[i], tableSize, arrays)}\n"
+                    );
                 if (i == 0)
                 {
                     Console.WriteLine("--------------\n\nSelecting better constant:\n");
@@ -43,9 +46,11 @@ namespace Hashing
 
             Console.WriteLine("--------------\n");
             double calculatedA = GetTheBestConst(tableSize, arrays, 10);
-            Console.WriteLine($"Calculated constant is {calculatedA}\n" +
+            Console.WriteLine(
+                $"Calculated constant is {calculatedA}\n" +
                 $"In average chains with that A have maximum length " +
-                $"of {GetAverageMaxChainLength(calculatedA, tableSize, arrays)}");
+                $"of {GetAverageMaxChainLength(calculatedA, tableSize, arrays)}"
+                );
             Console.WriteLine("\n--------------");
             Console.ReadKey();
         }

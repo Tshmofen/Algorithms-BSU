@@ -27,7 +27,7 @@ namespace Hashing.Hashtables
                 {
                     return false;
                 }
-                if (values[index] != null && deletedKeys.Contains(values[index].Key))
+                if (deletedKeys.Contains(values[index].Key))
                 {
                     break;
                 }
