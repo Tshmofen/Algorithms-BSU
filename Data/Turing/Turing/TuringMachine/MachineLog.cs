@@ -7,6 +7,8 @@ namespace Turing.TuringMachine
     {
         private readonly List<string> _log;
 
+        public string TapeState;
+
         public MachineLog()
         {
             _log = new List<string>();
@@ -22,7 +24,7 @@ namespace Turing.TuringMachine
             _log.Add(tapeStr);
         }
 
-        public override string ToString()
+        public string GetLog()
         {
             var builder = new StringBuilder()
                 .Append("Machine log: ")

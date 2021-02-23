@@ -37,10 +37,13 @@ namespace Turing
             };
 
             var machine = new Machine(input, nodes);
-            var perform = machine.Perform(initial, true);
-            Console.WriteLine(machine.Log.ToString());
+            var answer = machine.Perform(initial, true);
+            
+            Console.WriteLine(machine.Log.GetLog());
             Console.WriteLine($"Initial data: {input}");
-            Console.WriteLine(perform);
+            Console.Write($"Final data: {machine.Log.TapeState}\nAnswer is ");
+            Console.WriteLine(answer ? "yes" : "no");
+            Console.WriteLine("\n");
         }
 
         private static void ShowParenthesesChecker(string input)
@@ -96,10 +99,13 @@ namespace Turing
             };
 
             var machine = new Machine(input, nodes);
-            var perform = machine.Perform(initial, true);
-            Console.WriteLine(machine.Log.ToString());
+            var answer = machine.Perform(initial, true);
+            
+            Console.WriteLine(machine.Log.GetLog());
             Console.WriteLine($"Initial data: {input}");
-            Console.WriteLine(perform);
+            Console.Write($"Final data: {machine.Log.TapeState}\nAnswer is ");
+            Console.WriteLine(answer ? "yes" : "no");
+            Console.WriteLine("\n");
         }
     }
 }
