@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turing", "Turing\Turing.csproj", "{5153E7C5-F7EF-45AA-8896-920EA91B1B04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5153E7C5-F7EF-45AA-8896-920EA91B1B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5153E7C5-F7EF-45AA-8896-920EA91B1B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5153E7C5-F7EF-45AA-8896-920EA91B1B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5153E7C5-F7EF-45AA-8896-920EA91B1B04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
