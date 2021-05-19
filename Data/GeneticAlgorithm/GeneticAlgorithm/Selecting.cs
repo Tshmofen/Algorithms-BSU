@@ -11,12 +11,6 @@ namespace GeneticAlgorithm
         
         private static readonly Random Random = new();
 
-        private static int GetTargetEquation(GeneticValue value)
-        {
-            var (x, y, z, u, w) = (value.X, value.Y, value.Z, value.U, value.W);
-            return Math.Abs(y + u*w*(x*x)*y + 2*u*w*x*z + (w*w)*x*z - 40);
-        }
-        
         // we have 5 elements and should use some intermediate border, specifically from 1 to 3 (as index)
         private static int GenerateBorder() => Random.Next(3) + 1;
         
@@ -68,51 +62,43 @@ namespace GeneticAlgorithm
 
             return childValues;
         }
-        
-        private static List<double> GenerateChances(List<GeneticValue> values)
-        {
-            var chances = new List<double>();
-            var valuesFitness = new List<double>();
-            var fitnessSum = 0d;
-            
-            foreach (var value in values)
-            {
-                var target = (double) GetTargetEquation(value);
-                var fitness = 1 / (target == 0 ? 1 : target);
-                fitnessSum += fitness;
-                valuesFitness.Add(fitness);
-            }
-            
-            for (var i = 0; i < values.Count; i++)
-            {
-                var fitness = valuesFitness[i];
-                var chance = fitness / fitnessSum;
-                chances.Add(chance);
-            }
-
-            return chances.OrderByDescending(chance => chance).ToList();
-        }
 
         #endregion
 
+        public delegate int ActionTarget(GeneticValue value);
+
+        private readonly ActionTarget _target;
         private readonly int _populationSize;
         private readonly int _valueMin;
         private readonly int _valueMax;
         private readonly int _valuesForSelection;
         private readonly int _valuesForMutation;
         private readonly double _mutationChance;
+        private readonly double _substitutionChance;
 
         private List<GeneticValue> _population;
 
-        public Selecting(int populationSize, int valueMin, int valueMax, int valuesForSelection
-            , int valuesForMutation, double mutationChance)
+        public Selecting(
+            ActionTarget target,
+            int populationSize,
+            int valueMin,
+            int valueMax,
+            int valuesForSelection,
+            int valuesForMutation,
+            double mutationChance,
+            double substitutionChance
+            )
         {
+            _target = target;
+            
             _populationSize = populationSize;
             _valueMin = valueMin;
             _valueMax = valueMax;
             _valuesForSelection = valuesForSelection;
             _valuesForMutation = valuesForMutation;
             _mutationChance = mutationChance;
+            _substitutionChance = substitutionChance;
+            
             GenerateInitialPopulation();
         }
 
@@ -129,7 +115,7 @@ namespace GeneticAlgorithm
 
                 var targets = _population
                     .AsEnumerable()
-                    .Select(GetTargetEquation)
+                    .Select(value => _target(value))
                     .ToList();
                 var minValue = targets.Min();
                 logBuilder.Append($"Minimal target = {minValue}, average target error = {targets.Average()}\n");
@@ -137,7 +123,7 @@ namespace GeneticAlgorithm
                 if (minValue == 0)
                 {
                     foreach (var value in _population)
-                        if (GetTargetEquation(value) == 0)
+                        if (_target(value) == 0)
                         {
                             logBuilder
                                 .Append($"\n---------\n\nFinal value is = {value}\n")
@@ -165,7 +151,7 @@ namespace GeneticAlgorithm
         {
             var selected = childValues
                 .AsEnumerable()
-                .OrderByDescending(GetTargetEquation)
+                .OrderByDescending(value => _target(value))
                 .Take(_valuesForMutation);
             
             foreach (var value in selected)
@@ -178,18 +164,19 @@ namespace GeneticAlgorithm
 
         private void UseSubstitution(List<GeneticValue> childValues)
         {
-            var randomValues = _population
+            /*var randomValues = _population
                 .AsEnumerable()
                 .OrderBy(_ => Random.NextDouble())
                 .Take(childValues.Count)
-                .ToList();
+                .ToList();*/
 
             var chances = GenerateChances(childValues);
-            foreach (var value in randomValues)
+            foreach (var value in _population)
             {
+                if (Random.NextDouble() > _substitutionChance) continue;
+                    
                 var random = Random.NextDouble();
                 var index = 0;
-                
                 for (var j = 0; j < chances.Count; j++)
                 {
                     if (random < chances[j])
@@ -203,6 +190,30 @@ namespace GeneticAlgorithm
                 childValues.RemoveAt(index);
                 chances.RemoveAt(index);
             }
+        }
+        
+        private List<double> GenerateChances(List<GeneticValue> values)
+        {
+            var chances = new List<double>();
+            var valuesFitness = new List<double>();
+            var fitnessSum = 0d;
+            
+            foreach (var value in values)
+            {
+                var target = (double) _target(value);
+                var fitness = 1 / (target == 0 ? 1 : target);
+                fitnessSum += fitness;
+                valuesFitness.Add(fitness);
+            }
+            
+            for (var i = 0; i < values.Count; i++)
+            {
+                var fitness = valuesFitness[i];
+                var chance = fitness / fitnessSum;
+                chances.Add(chance);
+            }
+
+            return chances.OrderByDescending(chance => chance).ToList();
         }
 
         private void GenerateInitialPopulation()
