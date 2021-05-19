@@ -20,13 +20,13 @@ namespace Packaging
         private static void PerformFits(IReadOnlyCollection<double> numbers)
         {
             var nextFitSize = ContainerManager.PerformNextFit(numbers).Count;
-            var fastFitSize = ContainerManager.PerformFastFit(numbers).Count;
-            var fastFitDownSize = ContainerManager.PerformFastFitDecrease(numbers).Count;
+            var fastFitSize = ContainerManager.PerformFirstFit(numbers).Count;
+            var fastFitDownSize = ContainerManager.PerformFirstFitDecrease(numbers).Count;
             var bestFitSize = ContainerManager.PerformBestFit(numbers).Count;
             
             Console.WriteLine($"Next fit, containers size = {nextFitSize}");
-            Console.WriteLine($"Fast fit, containers size = {fastFitSize}");
-            Console.WriteLine($"Fast fit decrease, containers size = {fastFitDownSize}");
+            Console.WriteLine($"First fit, containers size = {fastFitSize}");
+            Console.WriteLine($"First fit decrease, containers size = {fastFitDownSize}");
             Console.WriteLine($"Best fit, containers size = {bestFitSize}");
         }
     }

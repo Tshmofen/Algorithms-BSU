@@ -22,7 +22,7 @@ namespace Packaging
             return containers;
         }
 
-        public static List<Container> PerformFastFit(IEnumerable<double> numbers)
+        public static List<Container> PerformFirstFit(IEnumerable<double> numbers)
         {
             var containers = new List<Container> { new() };
             
@@ -44,8 +44,8 @@ namespace Packaging
             return containers;
         }
 
-        public static List<Container> PerformFastFitDecrease(IEnumerable<double> numbers) 
-            => PerformFastFit(numbers.Reverse());
+        public static List<Container> PerformFirstFitDecrease(IEnumerable<double> numbers) 
+            => PerformFirstFit(numbers.OrderByDescending(number => number));
         
         public static List<Container> PerformBestFit(IEnumerable<double> numbers) 
         {
@@ -55,6 +55,7 @@ namespace Packaging
             {
                 var bestContainerIndex = 0;
                 var minDifference = double.MaxValue;
+
                 for (var i = 0; i < containers.Count; i++)
                 {
                     var difference = containers[i].Available - number;
@@ -64,7 +65,7 @@ namespace Packaging
                         minDifference = difference;
                     }
                 }
-
+                
                 if (!containers[bestContainerIndex].Add(number))
                 {
                     var newContainer = new Container();
