@@ -68,6 +68,30 @@ namespace GeneticAlgorithm
 
             return childValues;
         }
+        
+        private static List<double> GenerateChances(List<GeneticValue> values)
+        {
+            var chances = new List<double>();
+            var valuesFitness = new List<double>();
+            var fitnessSum = 0d;
+            
+            foreach (var value in values)
+            {
+                var target = (double) GetTargetEquation(value);
+                var fitness = 1 / (target == 0 ? 1 : target);
+                fitnessSum += fitness;
+                valuesFitness.Add(fitness);
+            }
+            
+            for (var i = 0; i < values.Count; i++)
+            {
+                var fitness = valuesFitness[i];
+                var chance = fitness / fitnessSum;
+                chances.Add(chance);
+            }
+
+            return chances.OrderByDescending(chance => chance).ToList();
+        }
 
         #endregion
 
@@ -159,10 +183,25 @@ namespace GeneticAlgorithm
                 .OrderBy(_ => Random.NextDouble())
                 .Take(childValues.Count)
                 .ToList();
-            
-            for (var i = 0; i < randomValues.Count; i++)
+
+            var chances = GenerateChances(childValues);
+            foreach (var value in randomValues)
             {
-                randomValues[i].Copy(childValues[i]);
+                var random = Random.NextDouble();
+                var index = 0;
+                
+                for (var j = 0; j < chances.Count; j++)
+                {
+                    if (random < chances[j])
+                    {
+                        index = j;
+                        break;
+                    }
+                }
+                
+                value.Copy(childValues[index]);
+                childValues.RemoveAt(index);
+                chances.RemoveAt(index);
             }
         }
 
