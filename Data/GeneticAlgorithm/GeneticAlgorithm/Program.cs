@@ -6,7 +6,7 @@ namespace GeneticAlgorithm
     {
         private static void Main()
         {
-            Selecting.ActionTarget target = Targets.GetTargetEquationA;
+            Selecting.ActionTarget target = Targets.GetTargetEquationB;
 
             const int populationSize = 3000;          
             const int valueMin = -200;                

@@ -164,12 +164,6 @@ namespace GeneticAlgorithm
 
         private void UseSubstitution(List<GeneticValue> childValues)
         {
-            /*var randomValues = _population
-                .AsEnumerable()
-                .OrderBy(_ => Random.NextDouble())
-                .Take(childValues.Count)
-                .ToList();*/
-
             var chances = GenerateChances(childValues);
             foreach (var value in _population)
             {
