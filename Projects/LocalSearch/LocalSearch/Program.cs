@@ -13,6 +13,7 @@ namespace LocalSearch
             var weights = GenerateWeightsMatrix(size, maxValue);
             var solver = new SalesmenProblemSolver(weights);
 
+            Console.WriteLine("Weights matrix:");
             Console.WriteLine(MatrixPrinter.MatrixToString(weights));
             Console.WriteLine("-----");
             Console.WriteLine(solver.PerformSearch().log);
