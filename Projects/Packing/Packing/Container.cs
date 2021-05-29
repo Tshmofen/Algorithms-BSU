@@ -1,4 +1,4 @@
-﻿namespace Packaging
+﻿namespace Packing
 {
     public class Container
     {

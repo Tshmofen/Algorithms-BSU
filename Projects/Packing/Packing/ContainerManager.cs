@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Packaging
+namespace Packing
 {
     public static class ContainerManager
     {

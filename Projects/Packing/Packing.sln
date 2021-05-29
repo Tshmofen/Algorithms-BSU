@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packaging", "Packaging\Packaging.csproj", "{58D2FE36-3CA9-4AC0-99DC-F8D8B5B076A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packing", "Packing\Packing.csproj", "{58D2FE36-3CA9-4AC0-99DC-F8D8B5B076A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
