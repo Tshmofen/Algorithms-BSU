@@ -7,16 +7,25 @@ namespace LocalSearch
     {
         private static void Main()
         {
-            const int size = 7;
+            const int size = 15;
             const int maxValue = 100;
             
             var weights = GenerateWeightsMatrix(size, maxValue);
             var solver = new SalesmenProblemSolver(weights);
-
+            
             Console.WriteLine("Weights matrix:");
             Console.WriteLine(MatrixPrinter.MatrixToString(weights));
             Console.WriteLine("-----");
-            Console.WriteLine(solver.PerformSearch().log);
+            
+            var previousRoute = (List<int>)null;
+            var currentRoute = solver.GetRandomRoute();
+            while (previousRoute != currentRoute)
+            {
+                previousRoute = currentRoute;
+                var ( minWeight, minRoute, log) = solver.PerformSearch(currentRoute);
+                currentRoute = minRoute;
+                Console.WriteLine($"{minWeight} – {SalesmenProblemSolver.RouteToString(currentRoute)}");
+            }
         }
         
         private static List<List<int>> GenerateWeightsMatrix(int size, int maxValue)
